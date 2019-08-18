@@ -1,6 +1,14 @@
 ﻿var hostlist = 
 [
   {
+    "id": 4,
+    "name": "富二代资源站",
+    "uri": "https://sb8.app/rb8.png",
+    "classapi": "http://f2dcj6.com/sapi/json?ac=list",
+    "listapi": "http://f2dcj6.com/sapi/json?ac=videolist",
+    "type": "国产资源"
+  },
+  {
     "id": 1,
     "name": "色色资源站",
     "uri": "https://www.emiao026.com",
@@ -23,14 +31,6 @@
     "classapi": "http://lsnzxcj.com/inc/jsonsapi.php?ac=list",
     "listapi": "http://lsnzxcj.com/inc/jsonsapi.php?ac=videolist",
     "type": "猎奇资源"
-  },
-  {
-    "id": 4,
-    "name": "富二代资源站",
-    "uri": "https://sb8.app/rb8.png",
-    "classapi": "http://f2dcj6.com/sapi/json?ac=list",
-    "listapi": "http://f2dcj6.com/sapi/json?ac=videolist",
-    "type": "国产资源"
   },
   {
     "id": 5,
@@ -63,6 +63,14 @@
     "classapi": "http://llzxcj.com/inc/json.php?ac=list",
     "listapi": "http://llzxcj.com/inc/json.php?ac=videolist",
     "type": "无水印资源"
+  },
+  {
+    "id": 9,
+    "name": "博天堂资源站",
+    "uri": "https://bttzyw.com",
+    "classapi": "http://bttcj.com/inc/json.php?ac=list",
+    "listapi": "http://bttcj.com/inc/json.php?ac=videolist",
+    "type": "伦理资源"
   }
 ]
 
@@ -75,6 +83,7 @@ var vm = new Vue({
     "getclass_url":"http://f2dcj6.com/sapi/json?ac=list",
     "getclass_rsp":{},
     "classid":"",
+    "querywd":"",
     "currenthostindex":0
   },
   created: function (){
@@ -86,13 +95,19 @@ var vm = new Vue({
       PlayVideo(url);
     },
     getnextpage:function(page){
-      var url = this.getlist_url+"&pg="+page+"&t="+this.classid;
+      var url = this.getlist_url+"&pg="+page+"&t="+this.classid+"&wd="+this.querywd;
       console.log(url);
       this.getlist(url);
     },
     getclasspage:function(classid){
       this.classid = classid;
+      this.querywd = "";//api bug：wd+t同时存在时，将无法查询t，即无法在某个具体分类下进行搜索;所以这里把他清空，避免翻页时优先进行wd查询；
       var url = this.getlist_url+"&t="+classid;
+      console.log(url);
+      this.getlist(url);
+    },
+    querypage:function(){
+      var url = this.getlist_url+"&wd="+this.querywd;
       console.log(url);
       this.getlist(url);
     },
