@@ -1,0 +1,30 @@
+<script src="../ext/vue.js"></script>
+<script src="./ext/hls.min.js"></script>
+
+<div id="app-4">
+  <div id="wf">
+    <div>站点切换：
+      <button v-for="(host,index) in hostlist" v-on:click="changehost(host.listapi,host.classapi,index)">{{ host.name }}</button>
+    </div><br/>
+    <p>当前站点：{{ hostlist[currenthostindex].name }}</p>
+    <div>分类查看：
+      <button v-for="(item,index) in getclass_rsp.class" v-on:click="getclasspage(item.cid)">{{ item.title }}</button>
+    </div><br/>
+    <div>
+      <button v-if="getlist_rsp.page>1" v-on:click="getnextpage(1)">首页</button>
+      <button v-if="getlist_rsp.page>1" v-on:click="getnextpage(getlist_rsp.page-1)">上一页</button>
+      <button v-if="getlist_rsp.page<getlist_rsp.pagecount" v-on:click="getnextpage(getlist_rsp.page+1)">下一页</button>
+      <button v-if="getlist_rsp.page<getlist_rsp.pagecount"
+        v-on:click="getnextpage(getlist_rsp.pagecount)">最后一页</button>
+    </div>
+    <video id="video" controls style="float:left;max-height: 900px;min-height: 340px"></video>
+    <div v-for="(item,index) in getlist_rsp.data" class="unit">
+      <div v-on:click="playvideo(item.vpath)" style="float:left;padding:3px;max-width: 300px;height: 340px;">
+        <img v-bind:src="item.vod_pic" style="max-width:100%;">
+        <p>{{ item.vod_title }}</p>
+        <p>{{ item.category }} {{ item.vod_addtime }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="test.js"></script>
