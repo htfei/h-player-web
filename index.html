@@ -1,0 +1,44 @@
+<script src="./public/ext/vue.min.js"></script>
+<script src="./public/ext/hls.min.js"></script>
+
+<div id="app-4">
+  <div id="wf">
+    <div>站点切换：
+      <button v-for="(host,index) in hostlist" v-on:click="changehost(host.id)">{{ host.id }} {{ host.name }}</button>
+    </div>
+    <span>当前站点id：{{ hostid }} </span><br />
+
+    <div>分类查看：
+      <button v-for="(item,index) in getclass_rsp.class" v-on:click="getclasspage(item.cid)">{{ item.cid }} {{ item.title }}</button>
+    </div>
+    <span>当前分类id：{{ classid }} </span>
+
+    <div>
+      站内查询：<input v-model="querywd" placeholder="请输入关键字" size="50" type='text' />
+      <button v-on:click="querypage">查询"{{ querywd }}"</button>
+    </div>
+    <span>当前查询字段：{{ querywd }} </span>
+    <div>
+      <!-- disabled来禁用按钮，v-if不会渲染按钮 -->
+      <button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(1)">首页</button>
+      <button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(getlist_rsp.page-1)">上一页</button>
+      <span>{{ getlist_rsp.page }}/{{ getlist_rsp.pagecount }}</span>
+      <button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
+        v-on:click="getnextpage(getlist_rsp.page+1)">下一页</button>
+      <button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
+        v-on:click="getnextpage(getlist_rsp.pagecount)">最后一页</button>
+    </div>
+    <span>当前页数：{{ pg }} </span><br />
+    <span>提示：{{ tips }} </span><br /><br />
+
+    <video id="video" controls style="float:left;max-height: 900px;min-height: 340px"></video>
+    <div v-for="(item,index) in getlist_rsp.data" class="unit">
+      <div v-on:click="playvideo(item.vpath)" style="float:left;padding:3px;max-width: 300px;height: 340px;">
+        <img v-bind:src="item.vod_pic" style="max-width:100%;">
+        <p>{{ item.vod_title }}</p>
+        <p>{{ item.category }} {{ item.vod_addtime }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="./public/index.js"></script>
