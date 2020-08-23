@@ -15,16 +15,21 @@ function gethostbyid(id) {
 async function getclass(id) {
 	let host = gethostbyid(id);
 	let url = host.classapi;
+	//console.log("getclass.req.url=%s", url);
 	let jsondata = await axios({
 		methods: 'get',
 		url: url
 		})
 		.then(function (response) {
 		//   console.log(response);
+		//console.log("getclass.rspdata.data.length=%s", response.data.data.length);
 		  return response.data;
 		})
 		.catch(function (error) {
-		  console.log(error);
+		  if(error.response){
+				console.log("sth.error!status=%s,statusText=%s",error.response.status,error.response.statusText);
+			}
+		  //console.log(error);
 		});
 	//console.log("route", jsondata);
 	return jsondata;
@@ -32,19 +37,25 @@ async function getclass(id) {
 
 async function getlist(id,pg,t,wd) {
 	let host = gethostbyid(id);
-	let url = host.listapi+"&pg="+pg+"&t="+t+"&wd="+wd;
+	let url = host.listapi+"&pg="+pg+"&t="+t+"&wd="+encodeURI(wd);
+	console.log("getlist.req.url=%s", url);
 	let jsondata = await axios({
 		methods: 'get',
 		url: url
 		})
 		.then(function (response) {
-		//   console.log(response);
-		  return response.data;
+			//console.log(response);
+			console.log("getlist.rspdata.data.length=%s", response.data.data.length);
+			return response.data;
 		})
 		.catch(function (error) {
-		  console.log(error);
+			if(error.response){
+				console.log("sth.error!status=%s,statusText=%s",error.response.status,error.response.statusText);
+			}
+		    //console.log(error);
 		});
 	//console.log("route", jsondata);
+	
 	return jsondata;
 }
 

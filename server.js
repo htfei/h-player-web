@@ -16,29 +16,19 @@ app.get('/', function (req, res) {
 })
 
 app.get('/getclass', async function (req, res) {
-	// 输出 JSON 格式
-	res.writeHead(200, {
-		'Content-Type': 'text/html;charset=utf-8'
-	}); //设置response编码为utf-8
-	console.log('/getclass %s',req.query.id);
+	res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
 	var data = await router.getclass(req.query.id);
-	//console.log(data);
 	res.end(JSON.stringify(data));
 })
 
 app.get('/getlist', async function (req, res) {
-	// 输出 JSON 格式
-	res.writeHead(200, {
-		'Content-Type': 'text/html;charset=utf-8'
-	}); //设置response编码为utf-8
-	console.log('/getlist %s %s %s %s',req.query.id,req.query.pg,req.query.t,req.query.wd);
+	res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'}); 
+	console.log('req.query.wd=%s',req.query.wd);
 	var data = await router.getlist(req.query.id,req.query.pg,req.query.t,req.query.wd);
-	console.log(data);
 	res.end(JSON.stringify(data));
 })
 
-
-var server = app.listen(121, function () {
+var server = app.listen(80, function () {
 	var host = server.address().address
 	var port = server.address().port
 	console.log("应用实例，访问地址为 http://%s:%s", host, port)

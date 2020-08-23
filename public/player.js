@@ -1,54 +1,8 @@
-﻿var hostlist = 
-[
-  {
-      "id": 1,
-      "name": "色色资源站"
-  },
-  {
-      "id": 2,
-      "name": "玖玖资源站"
-  },
-  {
-      "id": 3,
-      "name": "撸死你资源站"
-  },
-  {
-      "id": 4,
-      "name": "富二代资源站"
-  },
-  {
-      "id": 5,
-      "name": "字幕网资源站"
-  },
-  {
-      "id": 6,
-      "name": "久草资源站"
-  },
-  {
-      "id": 7,
-      "name": "女优资源站"
-  },
-  {
-      "id": 8,
-      "name": "利来资源站"
-  },
-  {
-      "id": 9,
-      "name": "博天堂资源站"
-  }
-]
+﻿
 
-
-var mylikestr = localStorage.getItem("mylike");
-console.log(mylikestr);
-var mylike = mylikestr?JSON.parse(mylikestr):[];
-console.log(mylike);
-		
-		
 var vm = new Vue({
   el: '#app',
   data: {
-    "hostlist":hostlist,
     "getlist_rsp":{},
     "getclass_rsp":{},
     //查询参数
@@ -57,14 +11,11 @@ var vm = new Vue({
     "hostid":1,
     "pg":1,
     //输出提示
-    "tips":"",
-	//本地收藏
-	"mylike":mylike,
-	"oldpage":""
+    "tips":""
   },
   created: function (){
     this.getclass();
-    this.getlist();
+	  this.getlist();
   },
   methods: {
     //向nodejs后端发送get请求,由后端调用外部引擎,解决跨域问题;
@@ -85,7 +36,7 @@ var vm = new Vue({
         url = fix[1];
       }
       console.log("urlfix:" + url);
-      window.open('http://www.guangguluntan.com:81/webplayer/player.html?url=' + url);
+      PlayVideo(url);
     },
     // 翻页
     getnextpage:function(page){
@@ -107,8 +58,8 @@ var vm = new Vue({
     },
 	  // 获取分类标题
     getclass:async function(){
-        this.tips = "正在获取分类标题...";
-        this.getclass_rsp = await this.search('/getclass?id=' + this.hostid);
+     this.tips = "正在获取分类标题...";
+	   this.getclass_rsp = await this.search('/getclass?id=' + this.hostid);
     },
     // 获取项目列表
     getlist:async function(){
@@ -124,34 +75,26 @@ var vm = new Vue({
       this.querywd = "";
       this.getclass();
       this.getlist();
-    },
-	// 收藏
-    likeit:function(item){
-		this.mylike.push(item);
-		console.log(this.mylike);
-		//查询完成之后，存入本地缓存
-        var jsonstr = JSON.stringify(this.mylike);
-        localStorage.setItem("mylike",jsonstr);
-    },
-	// 取消收藏
-    unlikeit:function(item){
-		for (var i=0;i<this.mylike.length;i++){
-			if(this.mylike[i] == item){
-				this.mylike.splice(i,1);
-				break;
-			}
-		}
-		//this.mylike.pop(item);//pop没有参数，只能删除最后一个
-		console.log(this.mylike);
-		
-		//查询完成之后，存入本地缓存
-        var jsonstr = JSON.stringify(this.mylike);
-        localStorage.setItem("mylike",jsonstr);
-    },
-	// 查看收藏
-    showmylike:function(){
-		this.getlist_rsp.data = this.mylike;
-		this.tips = "加载本地收藏完毕，have fun !";
-    },
+    }
   }
 });
+
+
+
+function PlayVideo(url){
+    var Hls = window.Hls
+    if (Hls.isSupported()) {
+      var hls = new Hls()
+      hls.loadSource(url)
+      hls.attachMedia(video)
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play()
+      })
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = url
+      video.addEventListener('canplay', function () {
+        video.play()
+      })
+    }
+}
+
