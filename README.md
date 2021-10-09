@@ -14,7 +14,12 @@ h-player-web 是个人最近学习 vue.js 而开发的一个练手项目，没�
 
 注: 若加载不出来，则可能是Chrome等浏览器默认禁止跨域,需要开启,设置见[这里](https://www.cnblogs.com/shihaiming/p/10984394.html)
 
-## TODO
+## nodejs版食用方法
 
-- [ ] 添加搜索功能
-- [ ] 界面优化
+1.npm install
+2.node server.js
+
+
+
+
+

@@ -1,0 +1,24 @@
+{
+  "name": "h-player-web",
+  "version": "1.0.0",
+  "description": "资源采集站在线播放",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/htfei/h-player-web.git"
+  },
+  "author": "htf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/htfei/h-player-web/issues"
+  },
+  "homepage": "https://github.com/htfei/h-player-web#readme",
+  "dependencies": {
+    "axios": "^0.22.0",
+    "express": "^4.17.1"
+  }
+}
