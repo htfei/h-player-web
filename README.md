@@ -16,8 +16,9 @@ h-player-web 是个人最近学习 vue.js 而开发的一个练手项目，没�
 
 ## nodejs版食用方法
 
-1.npm install
-2.node server.js
+1. npm install
+
+2. node server.js
 
 
 

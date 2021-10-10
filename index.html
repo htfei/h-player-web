@@ -4,50 +4,71 @@
 <script src="./public/ext/jquery.min.js"></script>
 <script type="text/javascript" src="./public/ext/bootstrap.min.js"></script>
 <script type="text/javascript" src="./public/ext/tongji.baidu.js"></script>
+<style>
+	button {
+		position: relative;
+		display: inline-block;
+		overflow: hidden;
+		border: 1px solid #999;
+	}
+</style>
 
 <div id="app">
-
-	
-	
-	<div>站点:
-		<button v-for="(host,index) in hostlist" v-on:click="changehost(host.id)">{{ host.id }} {{ host.name }}</button>
-	</div>
-	  
-	<div>分类:
-		<button v-for="(item,index) in getclass_rsp.class" v-on:click="getclasspage(item.cid)">{{ item.cid }}{{ item.title }}</button>
-	</div>
-	   
 	<div>
-		<input v-model="querywd" placeholder="请输入关键字" size="50" type='text' />
-		<button v-on:click="querypage">查询"{{ querywd }}"</button>
-	</div>
-	
-	<span>当前站：{{ hostid }} /分类：{{ classid }} /关键字：{{ querywd }} /页数：{{ pg }} </span>
-	<span>提示：{{ tips }} </span>
-	<button v-on:click="showmylike()">查看本地收藏</button>
+		<!--style="position:fixed;width:100%;height:700px"style="background:#EEEEEE;"-->
 
-	<div>
-		<!-- disabled来禁用按钮，v-if不会渲染按钮 -->
-		<button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(1)">首页</button>
-		<button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(getlist_rsp.page-1)">上一页</button>
-		<span>{{ getlist_rsp.page }}/{{ getlist_rsp.pagecount }}</span>
-		<button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
-		  v-on:click="getnextpage(getlist_rsp.page+1)">下一页</button>
-		<button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
-		  v-on:click="getnextpage(getlist_rsp.pagecount)">最后一页</button>
-	</div> 
-	
-	<div><!--style="padding-top:700px;width:100%;"-->
-	  <div v-for="(item,index) in getlist_rsp.data" class="unit">
-		<div  style="float:left;padding:10px;max-width: 460px;">
-		  <img v-on:click="playvideo(item.vpath)" v-bind:src="item.vod_pic" style="max-width:100%;">
-		  <p>{{ item.vod_title }}</p>
-		  <p>{{ item.category }} {{ item.vod_addtime }}<button v-on:click="likeit(item)">收藏</button><button v-on:click="unlikeit(item)">取消收藏</button></p>
+		<video id="video" controls style="width:100%;"></video>
+		<div>
+
+			<br />
+			<div>站点:
+				<button v-for="(host,index) in hostlist" v-on:click="changehost(host.id)" class="btn">{{ host.id }}
+					{{ host.name }}</button>
+			</div><br />
+
+			<div>分类:
+				<button v-for="(item,index) in getclass_rsp.class" v-on:click="getclasspage(item.cid)"
+					class="btn">{{ item.cid }}
+					{{ item.title }}</button>
+			</div><br />
+
+			<div>
+				<input v-model="querywd" placeholder="请输入关键字" size="50" type='text' />
+				<button v-on:click="querypage" class="btn">查询"{{ querywd }}"</button>
+			</div><br />
+
+			<div>
+				<!-- disabled来禁用按钮，v-if不会渲染按钮 -->
+				<button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(1)" class="btn">首页</button>
+				<button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(getlist_rsp.page-1)"
+					class="btn">上一页</button>
+				<span>{{ getlist_rsp.page }}/{{ getlist_rsp.pagecount }}</span>
+				<button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
+					v-on:click="getnextpage(getlist_rsp.page+1)" class="btn">下一页</button>
+				<button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
+					v-on:click="getnextpage(getlist_rsp.pagecount)" class="btn">最后一页</button>
+			</div>
+			<span>当前站：{{ hostid }} 分类：{{ classid }} 关键字：{{ querywd }} 页数：{{ pg }} </span><br />
+			<span>提示：{{ tips }} </span><br /><br />
+
+			<button v-on:click="showmylike()" class="btn">查看本地收藏</button>
+
 		</div>
-	  </div>
-	</div>	  
-	
 
+	</div>
+
+	<div>
+		<!--style="padding-top:700px;width:100%;"-->
+		<div v-for="(item,index) in getlist_rsp.data" class="unit">
+			<div style="float:left;padding:10px;max-width: 460px;">
+				<img v-on:click="playvideo(item.vpath)" v-bind:src="item.vod_pic" style="max-width:100%;">
+				<p>{{ item.vod_title }}</p>
+				<p>{{ item.category }} {{ item.vod_addtime }}
+					<button v-on:click="likeit(item)" class="btn">收藏</button><button v-on:click="unlikeit(item)"
+						class="btn">取消收藏</button></p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="./public/index.js"></script>

@@ -2,31 +2,31 @@
 [
   {
       "id": 1,
-      "name": "色色资源站"
-  },
-  {
-      "id": 2,
-      "name": "玖玖资源站"
-  },
-  {
-      "id": 3,
-      "name": "撸死你资源站"
-  },
-  {
-      "id": 4,
       "name": "富二代资源站"
   },
   {
+      "id": 2,
+      "name": "玖玖资源站(失效)"
+  },
+  {
+      "id": 3,
+      "name": "撸死你资源站(失效)"
+  },
+  {
+      "id": 4,
+      "name": "色色资源站(失效)"
+  },
+  {
       "id": 5,
-      "name": "字幕网资源站"
+      "name": "字幕网资源站(失效)"
   },
   {
       "id": 6,
-      "name": "久草资源站"
+      "name": "Yellow字幕网（bug）"
   },
   {
       "id": 7,
-      "name": "女优资源站"
+      "name": "女优资源站(失效)"
   },
   {
       "id": 8,
@@ -34,7 +34,7 @@
   },
   {
       "id": 9,
-      "name": "博天堂资源站"
+      "name": "博天堂资源站(失效)"
   }
 ]
 
@@ -65,6 +65,7 @@ var vm = new Vue({
   created: function (){
     this.getclass();
     this.getlist();
+    this.postuserinfo();
   },
   methods: {
     //向nodejs后端发送get请求,由后端调用外部引擎,解决跨域问题;
@@ -85,7 +86,7 @@ var vm = new Vue({
         url = fix[1];
       }
       console.log("urlfix:" + url);
-      window.open('http://www.guangguluntan.com:81/webplayer/player.html?url=' + url);
+      PlayVideo(url);
     },
     // 翻页
     getnextpage:function(page){
@@ -153,5 +154,31 @@ var vm = new Vue({
 		this.getlist_rsp.data = this.mylike;
 		this.tips = "加载本地收藏完毕，have fun !";
     },
+    // 获取用户浏览器信息
+    postuserinfo:async function(){
+      //this.tips = "正在努力加载，请等待...";
+      //this.getlist_rsp = await this.search('/getlist?id=' + this.hostid + '&pg=' + this.pg + "&t="+this.classid+"&wd="+this.querywd);
+      //this.tips = "搜索完毕，have fun !";
+    },
   }
 });
+
+
+
+function PlayVideo(url){
+    var Hls = window.Hls
+    if (Hls.isSupported()) {
+      var hls = new Hls()
+      hls.loadSource(url)
+      hls.attachMedia(video)
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play()
+      })
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = url
+      video.addEventListener('canplay', function () {
+        video.play()
+      })
+    }
+}
+
