@@ -1,13 +1,7 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-var router = require("./routes/router");
+var axios = require('axios');
 
 var app = express();
-
-// 创建 application/x-www-form-urlencoded 编码解析
-var urlencodedParser = bodyParser.urlencoded({
-	extended: false
-})
 
 app.use('/public', express.static('public'));
 
@@ -15,17 +9,25 @@ app.get('/', function (req, res) {
 	res.sendFile(__dirname + "/" + "index.html");
 })
 
-app.get('/getclass', async function (req, res) {
+app.get('/req_json_api', async function (req, res) {
 	res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
-	var data = await router.getclass(req.query.id);
-	res.end(JSON.stringify(data));
-})
+	requrl = req.url.slice(18);
+	console.log('requrl=%s',requrl);
 
-app.get('/getlist', async function (req, res) {
-	res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'}); 
-	console.log('req.query.wd=%s',req.query.wd);
-	var data = await router.getlist(req.query.id,req.query.pg,req.query.t,req.query.wd);
-	res.end(JSON.stringify(data));
+	let jsondata = await axios({
+		methods: 'get',
+		url: requrl
+		})
+		.then(function (response) {
+		  return response.data;
+		})
+		.catch(function (error) {
+		  if(error.response){
+				console.log("sth.error!status=%s,statusText=%s",error.response.status,error.response.statusText);
+			}
+		});
+
+	res.end(JSON.stringify(jsondata));
 })
 
 var server = app.listen(2021, function () {

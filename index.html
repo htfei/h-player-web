@@ -22,33 +22,31 @@
 
 			<br />
 			<div>站点:
-				<button v-for="(host,index) in hostlist" v-on:click="changehost(host.id)" class="btn">{{ host.id }}
+				<button v-for="(host,index) in hostlist" v-on:click="changehost(index)" class="btn">
 					{{ host.name }}</button>
 			</div><br />
 
-			<div>分类:
-				<button v-for="(item,index) in getclass_rsp.class" v-on:click="getclasspage(item.cid)"
-					class="btn">{{ item.cid }}
-					{{ item.title }}</button>
+			<div>分类：
+				<button v-for="(item,index) in lists.class" v-on:click="getclasspage(item.cid || item.type_id)"
+					class="btn">{{ item.cid || item.type_id }} {{ item.title || item.type_name }}</button>
 			</div><br />
 
 			<div>
-				<input v-model="querywd" placeholder="请输入关键字" size="50" type='text' />
-				<button v-on:click="querypage" class="btn">查询"{{ querywd }}"</button>
+				<input v-model="wd" placeholder="请输入关键字" size="50" type='text' />
+				<button v-on:click="querypage" class="btn">查询"{{ wd }}"</button>
 			</div><br />
 
 			<div>
 				<!-- disabled来禁用按钮，v-if不会渲染按钮 -->
-				<button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(1)" class="btn">首页</button>
-				<button :disabled="getlist_rsp.page===1" v-on:click="getnextpage(getlist_rsp.page-1)"
-					class="btn">上一页</button>
-				<span>{{ getlist_rsp.page }}/{{ getlist_rsp.pagecount }}</span>
-				<button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
-					v-on:click="getnextpage(getlist_rsp.page+1)" class="btn">下一页</button>
-				<button :disabled="getlist_rsp.page===getlist_rsp.pagecount"
-					v-on:click="getnextpage(getlist_rsp.pagecount)" class="btn">最后一页</button>
+				<button :disabled="detail.page===1" v-on:click="getnextpage(1)" class="btn">首页</button>
+				<button :disabled="detail.page===1" v-on:click="getnextpage(detail.page-1)" class="btn">上一页</button>
+				<span>{{ detail.page }}/{{ detail.pagecount }}</span>
+				<button :disabled="detail.page===detail.pagecount" v-on:click="getnextpage(detail.page+1)"
+					class="btn">下一页</button>
+				<button :disabled="detail.page===detail.pagecount" v-on:click="getnextpage(detail.pagecount)"
+					class="btn">最后一页</button>
 			</div>
-			<span>当前站：{{ hostid }} 分类：{{ classid }} 关键字：{{ querywd }} 页数：{{ pg }} </span><br />
+			<span>当前站：{{ hostlist[current_host_index].name }} 分类：{{ t }} 关键字：{{ wd }} 页数：{{ pg }} </span><br />
 			<span>提示：{{ tips }} </span><br /><br />
 
 			<button v-on:click="showmylike()" class="btn">查看本地收藏</button>
@@ -57,18 +55,20 @@
 
 	</div>
 
-	<div>
-		<!--style="padding-top:700px;width:100%;"-->
-		<div v-for="(item,index) in getlist_rsp.data" class="unit">
-			<div style="float:left;padding:10px;max-width: 460px;">
-				<img v-on:click="playvideo(item.vpath)" v-bind:src="item.vod_pic" style="max-width:100%;">
-				<p>{{ item.vod_title }}</p>
-				<p>{{ item.category }} {{ item.vod_addtime }}
-					<button v-on:click="likeit(item)" class="btn">收藏</button><button v-on:click="unlikeit(item)"
-						class="btn">取消收藏</button></p>
-			</div>
+	<!--style="padding-top:700px;width:100%;"-->
+	<div v-for="(item,index) in detail_items" class="unit">
+		<div style="float:left;padding:10px;max-width: 460px;">
+			<img v-on:click="playvideo(item)" v-bind:src="item.vod_pic" style="max-width:100%;">
+			<p>{{ item.vod_title || item.vod_name }}</p>
+			<p>{{ item.category || item.type_name }} {{ item.vod_addtime || item.vod_time }}
+				<button v-if="!showlike" v-on:click="likeit(item)" class="btn">收藏</button>
+				<button v-else v-on:click="unlikeit(item)" class="btn">取消收藏</button>
+			</p>
 		</div>
 	</div>
+
+
+
 </div>
 
 <script src="./public/index.js"></script>
