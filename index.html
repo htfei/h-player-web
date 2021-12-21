@@ -4,70 +4,78 @@
 <script src="./public/ext/jquery.min.js"></script>
 <script type="text/javascript" src="./public/ext/bootstrap.min.js"></script>
 <script type="text/javascript" src="./public/ext/tongji.baidu.js"></script>
-<style>
-	button {
-		position: relative;
-		display: inline-block;
-		overflow: hidden;
-		border: 1px solid #999;
-	}
-</style>
 
-<div id="app">
-	<div>
-		<!--style="position:fixed;width:100%;height:700px"style="background:#EEEEEE;"-->
+<div id="app" >
+	<div style="position:fixed;width:100%;height:35%;z-index:999;">
+		<!--style="position:fixed;width:100%;height:25%" style="background:#EEEEEE;"style="background:url(https://api.uomg.com/api/rand.img3?_t=)"-->
+		
+		<div style="text-align:center;width:100%;background:rgb(155, 155, 155);">
+			<video id="video" controls style="width:50%;" v-on:click="playvideo(detail_items[0])" v-bind:poster="video_bgimg || detail_items[0] && detail_items[0].vod_pic"></video>
+		</div>
 
-		<video id="video" controls style="width:100%;"></video>
-		<div>
+		<div style="width:100%;background:rgb(155, 155, 155);">
 
-			<br />
-			<div>站点:
-				<button v-for="(host,index) in hostlist" v-on:click="changehost(index)" class="btn">
-					{{ host.name }}</button>
-			</div><br />
-
-			<div>分类：
-				<button v-for="(item,index) in lists.class" v-on:click="getclasspage(item.cid || item.type_id)"
-					class="btn">{{ item.cid || item.type_id }} {{ item.title || item.type_name }}</button>
-			</div><br />
-
-			<div>
-				<input v-model="wd" placeholder="请输入关键字" size="50" type='text' />
-				<button v-on:click="querypage" class="btn">查询"{{ wd }}"</button>
-			</div><br />
-
-			<div>
-				<!-- disabled来禁用按钮，v-if不会渲染按钮 -->
-				<button :disabled="detail.page===1" v-on:click="getnextpage(1)" class="btn">首页</button>
-				<button :disabled="detail.page===1" v-on:click="getnextpage(detail.page-1)" class="btn">上一页</button>
-				<span>{{ detail.page }}/{{ detail.pagecount }}</span>
-				<button :disabled="detail.page===detail.pagecount" v-on:click="getnextpage(detail.page+1)"
-					class="btn">下一页</button>
-				<button :disabled="detail.page===detail.pagecount" v-on:click="getnextpage(detail.pagecount)"
-					class="btn">最后一页</button>
+			<br/>
+				
+			<div class="btn-group btn-lg">
+				<button type="button" class="btn dropdown-toggle btn-lg" data-toggle="dropdown">
+					{{ hostlist[current_host_index].name }} <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+					<li v-for="(host,index) in hostlist" v-on:click="changehost(index)" class="btn btn-lg">{{ host.name }}</li>
+				</ul>
 			</div>
-			<span>当前站：{{ hostlist[current_host_index].name }} 分类：{{ t }} 关键字：{{ wd }} 页数：{{ pg }} </span><br />
-			<span>提示：{{ tips }} </span><br /><br />
 
-			<button v-on:click="showmylike()" class="btn">查看本地收藏</button>
+			<div class="btn-group btn-lg">
+				<button type="button" class="btn dropdown-toggle btn-lg" data-toggle="dropdown">
+					{{ type_name }} <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+					<li v-for="(item,index) in lists.class" v-on:click="getclasspage(item)"
+						class="btn btn-lg">
+						{{ item.cid || item.type_id }} {{ item.title || item.type_name }}</li>
+				</ul>
+			</div>
+
+			<button v-if="!showlike" v-on:click="likeit()" class="btn btn-lg">收藏</button>
+
+			<button :disabled="detail.page===1" v-on:click="getnextpage(1)" class="btn btn-lg">首页</button>
+			<button :disabled="detail.page===1" v-on:click="getnextpage(detail.page-1)" class="btn btn-lg">上一页</button>
+			<span :disabled="1" class="btn">{{ detail.page }}/{{ detail.pagecount }}</span>
+			<button :disabled="detail.page===detail.pagecount" v-on:click="getnextpage(detail.page+1)"
+				class="btn btn-lg">下一页</button>
+			<button :disabled="detail.page===detail.pagecount" v-on:click="getnextpage(detail.pagecount)"
+				class="btn btn-lg">尾页</button>
+
+			<button v-on:click="showmylike()" class="btn btn-lg">我的收藏 </button>
+
+			<div class="btn input-group">
+				<!--<span v-if="!showlike" v-on:click="likeit()" class="input-group-addon btn btn-primary">收藏</span>
+				<span v-on:click="showmylike()" class="input-group-addon btn btn-primary">我的收藏 </span>-->
+				<input v-model="wd" v-bind:placeholder="tips || 请输入关键字" size="30" type='text' class="form-control input-lg">
+				<span v-on:click="querypage" class="input-group-addon btn btn-primary">搜索</span>
+			</div>
+
+			<!--<span class="alert alert-warning">提示：{{ tips }} </span>-->
 
 		</div>
 
 	</div>
 
-	<!--style="padding-top:700px;width:100%;"-->
-	<div v-for="(item,index) in detail_items" class="unit">
-		<div style="float:left;padding:10px;max-width: 460px;">
-			<img v-on:click="playvideo(item)" v-bind:src="item.vod_pic" style="max-width:100%;">
-			<p>{{ item.vod_title || item.vod_name }}</p>
-			<p>{{ item.category || item.type_name }} {{ item.vod_addtime || item.vod_time }}
-				<button v-if="!showlike" v-on:click="likeit(item)" class="btn">收藏</button>
-				<button v-else v-on:click="unlikeit(item)" class="btn">取消收藏</button>
-			</p>
+	<div style="position:absolute;top:35%;width:100%;">
+
+		<div v-for="(item,index) in detail_items" class="unit">
+			
+			<div style="float:left;padding:10px;width:50%;">
+				<img v-on:click="playvideo(item)" v-bind:src="item.vod_pic" style="max-width:100%;">
+				<p>{{ item.vod_title || item.vod_name }}</p>
+				<p>{{ item.category || item.type_name }} {{ item.vod_addtime || item.vod_time }}
+					<button v-if="!showlike" v-on:click="likeit(item)" class="btn">收藏</button>
+					<button v-else v-on:click="unlikeit(item)" class="btn">取消收藏</button>
+				</p>
+			</div>
+
 		</div>
+
 	</div>
-
-
 
 </div>
 
