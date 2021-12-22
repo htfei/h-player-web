@@ -93,7 +93,7 @@ var apis = [{
 var mylikestr = localStorage.getItem("mylike");
 //console.log(mylikestr);
 var mylike = mylikestr ? JSON.parse(mylikestr) : [];
-console.log(mylike);
+//console.log(mylike);
 
 
 var vm = new Vue({
@@ -153,7 +153,7 @@ var vm = new Vue({
         this.tips = "请求发生错误,请稍后重试！";
         console.log("请求发生错误:", e)
       });
-      rsp && console.log(rsp);
+      //rsp && console.log(rsp);
       return rsp;
     },
     playvideo: function (item) {
