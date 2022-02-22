@@ -177,9 +177,11 @@ var vm = new Vue({
             console.log(this.videoWidth,this.videoHeight);
             if(this.videoWidth > this.videoHeight){
               this.style.width = "100%";
+              this.style.height = "auto";
             }
             else{
-              this.style.width = "80%";
+              this.style.width = "auto";
+              this.style.height = "100%";
             }
           });
         });
@@ -190,9 +192,11 @@ var vm = new Vue({
           console.log(this.videoWidth,this.videoHeight);
           if(this.videoWidth > this.videoHeight){
             this.style.width = "100%";
+            this.style.height = "auto";
           }
           else{
-            this.style.width = "80%";
+            this.style.width = "auto";
+            this.style.height = "100%";
           }
         });
       }
