@@ -15,11 +15,25 @@ var apis = [{
     "detail_api": "http://f2dcj6.com/sapi/json?ac=videolist", //&pg=&t=&wd=  &ids=106536,106535
   },
   {
+    "id": 11,
+    "name": "🐞字幕组资源",
+    "host": "wu",
+    "list_api": "http://zmcj88.com/sapi/json?ac=list",
+    "detail_api": "http://zmcj88.com/sapi/json?ac=videolist", //&pg=&t=&wd=  &ids=106536,106535
+  },
+  {
     "id": 2,
     "name": "👯利来资源",
     "host": "https://sao-lang-jian.com",
     "list_api": "http://llzxcj.com/inc/json.php?ac=list",
     "detail_api": "http://llzxcj.com/inc/json.php?ac=videolist",
+  },
+  {
+    "id": 3,
+    "name": "👯名优馆资源",
+    "host": "http://mygzycj.com",
+    "list_api": "http://mygzycj.com/sapi.php?ac=jsonlist",
+    "detail_api": "http://mygzycj.com/sapi.php?ac=jsonvideolist",
   },
 
   //以下api返回的json格式与上面不同，通过id区分(id>100)
@@ -55,7 +69,7 @@ var apis = [{
   },
   {
     "id": 104,
-    "name": "⛅乐云资源",
+    "name": "🐠乐鱼资源",
     "host": "https://help.leyuzy.pro/",
     "list_api": "https://www.leyuzyapi.com/inc/apijson_vod.php?ac=list",
     "detail_api": "https://www.leyuzyapi.com/inc/apijson_vod.php?ac=detail",
@@ -86,6 +100,48 @@ var apis = [{
     "list_api": "https://mgzyz1.com/api.php/provide/vod/?ac=list",
     "detail_api": "https://mgzyz1.com/api.php/provide/vod/?ac=detail",
     "jx": "https://mgm3u8-player.com/player/DPm3u8.php?url=",
+  },
+  {
+    "id": 108,
+    "name": "🍑水蜜桃资源",
+    "host": "http://51smt4.xyz/",
+    "list_api": "http://51smt4.xyz/api.php/provide/vod/?ac=list",
+    "detail_api": "http://51smt4.xyz/api.php/provide/vod/?ac=detail",
+  },
+  {
+    "id": 109,
+    "name": "🌶花椒资源",
+    "host": "https://apihjzy.com",
+    "list_api": "https://apihjzy.com/api.php/provide/vod/at/json/?ac=detail",
+    "detail_api": "https://apihjzy.com/api.php/provide/vod/at/json/?ac=detail",
+  },
+  {
+    "id": 110,
+    "name": "😄乐播资源",
+    "host": "https://lbapi9.com",
+    "list_api": "https://lbapi9.com/api.php/provide/vod/at/json/?ac=list",
+    "detail_api": "https://lbapi9.com/api.php/provide/vod/at/json/?ac=detail",
+  },
+  {
+    "id": 111,
+    "name": "😄番号资源",
+    "host": "https://fhapi9.com",
+    "list_api": "http://fhapi9.com/api.php/provide/vod/at/json/?ac=list",
+    "detail_api": "http://fhapi9.com/api.php/provide/vod/at/json/?ac=detail",
+  },
+  {
+    "id": 112,
+    "name": "🦈鲨鱼资源",
+    "host": "www.shayuapi.com",
+    "list_api": "https://www.shayuapi.com/api.php/provide/vod/at/json/?ac=list",
+    "detail_api": "https://www.shayuapi.com/api.php/provide/vod/at/json/?ac=detail",
+  },
+  {
+    "id": 113,
+    "name": "🥑芒果AV",
+    "host": "www.mgav1.cc",
+    "list_api": "https://www.mgav1.cc/api.php/provide/vod/at/json/?ac=detail",
+    "detail_api": "https://www.mgav1.cc/api.php/provide/vod/at/json/?ac=detail",
   }
 ]
 
